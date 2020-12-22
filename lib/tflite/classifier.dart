@@ -17,11 +17,11 @@ class Classifier {
   /// Labels file loaded as list
   List<String> _labels;
 
-  static const String MODEL_FILE_NAME = "detect.tflite";
+  static const String MODEL_FILE_NAME = "ssd_mobiledet_cpu_coco.tflite";
   static const String LABEL_FILE_NAME = "labelmap.txt";
 
   /// Input size of image (height = width = 300)
-  static const int INPUT_SIZE = 300;
+  static const int INPUT_SIZE = 320;
 
   /// Result score threshold
   static const double THRESHOLD = 0.5;
@@ -87,6 +87,7 @@ class Classifier {
       imageProcessor = ImageProcessorBuilder()
           .add(ResizeWithCropOrPadOp(padSize, padSize))
           .add(ResizeOp(INPUT_SIZE, INPUT_SIZE, ResizeMethod.BILINEAR))
+          .add(NormalizeOp(127.5, 127.5))
           .build();
     }
     inputImage = imageProcessor.process(inputImage);
